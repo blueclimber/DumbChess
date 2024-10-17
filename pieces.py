@@ -13,6 +13,8 @@ class Piece:
         new_position - a new boardgame position
 
         if new_position is valid, set self.position = new_position
+
+        If there is a piece taken, find it on self.board and remove it?
         :return
         bool True if valid position and position changed, False otherwise
         """

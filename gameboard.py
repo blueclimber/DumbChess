@@ -25,10 +25,27 @@ class GameBoard:
 
         """
 
-    def move(self, command):
+    def move(self, from_coord, to_coord):
         """
-        5.	Commands are “source – destination”, or something similar, using the coordinates as follows: “E2 – E4”.
-        Decide on whether you want spaces, and whether you want upper or lower case letters, etc.
-        :param command: source-destination
+        :param
+        from_coord source Coordinate
+        to_coord destination Coordinate
+        Figure out which piece is in from_coord.
+        Decide if that piece can legally be moved by the currant player - is the current player white
+            and the piece belongs to black?
+        Then call that pieces move function. That will check if the movement fits in that pieces rules and return a bool
         :return: True if valid move and carried out, False otherwise
         """
+
+    def in_check(self):
+        """
+        check to see if the game is in check.
+        return True if in check
+        return false otherwise
+        """
+
+
+class Coordinate:
+    def __init__(self, row, column):
+        self.row = row
+        self.column = column
