@@ -2,7 +2,7 @@ class GameBoard:
     def __init__(self):
         """
         set up a new game
-        create the pieces objects with their colors and locations
+        create the pieces objects with their colors and locations, passing in self as the board
 
         game data structure: 2D 8x8 list of piece objects or None
         """
