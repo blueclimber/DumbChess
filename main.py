@@ -16,6 +16,8 @@ def game_loop():
     """
     curr_player = "white"
 
+    Game.display()
+
     valid_move = False
 
     while not valid_move:
@@ -24,8 +26,13 @@ def game_loop():
     pass
 
     if Game.in_check():
+        print("some player is currently in check")
         pass
         # end the game?
+
+    """
+    end loop
+    """
 
 
 def get_move(player):
@@ -63,7 +70,7 @@ def convert_string_to_coordinate(coord):
     row_col_list = coord.split('')
 
     row = int(row_col_list[0]) - 1
-    # fixme - what if column is lowercase, or in the cols list
+    # fixme - what if column is lowercase, or not in the cols list
     col = cols.index(row_col_list[1]) - 1
 
     new_coord = Coordinate(row, col)
@@ -75,6 +82,8 @@ def move(game, from_coord, to_coord, player):
     This actually calls the Game.move()
     Game.move() returns a bool, this returns that same bool
     """
+    game.move()
+
     return True
 
 

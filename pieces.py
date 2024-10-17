@@ -7,12 +7,14 @@ class Piece:
         self.color = color
         self.board = board
 
-    def move(self, new_postion):
+    def move(self, new_position):
         """
         :param
         new_position - a new boardgame position
 
         if new_position is valid, set self.position = new_position
+        remember to check for pieces that are in between current position and new position. That makes the
+        move invalid for everyone except the knight
 
         If there is a piece taken, find it on self.board and remove it?
         :return

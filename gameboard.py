@@ -39,7 +39,7 @@ class GameBoard:
 
     def in_check(self):
         """
-        check to see if the game is in check.
+        check to see if a king is in check.
         return True if in check
         return false otherwise
         """
