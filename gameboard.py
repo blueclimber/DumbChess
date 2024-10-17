@@ -30,16 +30,18 @@ class GameBoard:
         :param
         from_coord source Coordinate
         to_coord destination Coordinate
-        Figure out which piece is in from_coord.
+        Figure out which piece is in from_coord. If there is no piece there, immediately return False
         Decide if that piece can legally be moved by the currant player - is the current player white
             and the piece belongs to black?
+            if it's illegal immediately return False
         Then call that pieces move function. That will check if the movement fits in that pieces rules and return a bool
         :return: True if valid move and carried out, False otherwise
         """
 
     def in_check(self):
         """
-        check to see if a king is in check.
+        check to see if the king is in check.
+        How do we know which king is in check? How do we find the two king's positions? hmmm, solve this one we must
         return True if in check
         return false otherwise
         """
