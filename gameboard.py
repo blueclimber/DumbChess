@@ -5,6 +5,8 @@ class GameBoard:
         create the pieces objects with their colors and locations, passing in self as the board
 
         game data structure: 2D 8x8 list of piece objects or None
+
+        have a list of kings to see if they are in check? or pieces?
         """
         pass
 
@@ -38,7 +40,7 @@ class GameBoard:
         :return: True if valid move and carried out, False otherwise
         """
 
-    def in_check(self):
+    def in_check(self, color):
         """
         check to see if the king is in check.
         How do we know which king is in check? How do we find the two king's positions? hmmm, solve this one we must

@@ -5,7 +5,7 @@ class Piece:
     def __init__(self, position, color, board):
         self.position = position
         self.color = color
-        self.board = board #this is a GameBoard object, so when these pieces are created, GameBoard will pass in self
+        self.board = board  # this is a GameBoard object, so when these pieces are created, GameBoard will pass in self
 
     def move(self, new_position):
         """
@@ -24,25 +24,31 @@ class Piece:
 
     # maybe add another method is_valid
 
+
 class King(Piece):
     def move(self, new_position):
         pass
+
 
 class Queen(Piece):
     def move(self, new_position):
         pass
 
+
 class Knight(Piece):
     def move(self, new_position):
         pass
+
 
 class Bishop(Piece):
     def move(self, new_position):
         pass
 
+
 class Rook(Piece):
     def move(self, new_position):
         pass
+
 
 class Pawn(Piece):
     def move(self, new_position):

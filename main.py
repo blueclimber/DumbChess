@@ -25,10 +25,11 @@ def game_loop():
         valid_move = move(Game, f, t, curr_player)
     pass
 
-    if Game.in_check():
-        print("some player is currently in check")
-        pass
-        # end the game?
+    # change to check for each player
+    # if Game.in_check():
+    #     print("some player is currently in check")
+    #     pass
+    #     # end the game?
 
     """
     end loop
