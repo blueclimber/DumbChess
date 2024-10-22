@@ -28,17 +28,38 @@ class GameBoard:
         """
 
     def move(self, from_coord, to_coord):
+        """
+        :param
+        from_coord source Coordinate
+        to_coord destination Coordinate
+        Figure out which piece is in from_coord. If there is no piece there, immediately return False
+        """
         start_row, start_col = from_coord
         end_row, end_col = to_coord
         piece = start_row,start_col
         if piece is None:
             print("no piece in the given coordinate")
             return False
+        
+        def within_Bounds():
+            if(0<= end_row < 8 and 0<=end_col<8):
+                return True
+            else :
+                False
+        """        
+        def is_piece_w_B():
+        if the piece is used as tupple("piece Name", "color","coordinate","firstTime")
+        pieceColor = piece[1] which would give the color
+        if pieceColor is black || white:
+            
+            return True;
+        else 
+             return Fale;
+        
         """
-        :param
-        from_coord source Coordinate
-        to_coord destination Coordinate
-        Figure out which piece is in from_coord. If there is no piece there, immediately return False
+            
+
+        """
         Decide if that piece can legally be moved by the currant player - is the current player white
             and the piece belongs to black?
             if it's illegal immediately return False
