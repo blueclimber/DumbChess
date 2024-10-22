@@ -28,6 +28,12 @@ class GameBoard:
         """
 
     def move(self, from_coord, to_coord):
+        start_row, start_col = from_coord
+        end_row, end_col = to_coord
+        piece = start_row,start_col
+        if piece is None:
+            print("no piece in the given coordinate")
+            return False
         """
         :param
         from_coord source Coordinate
