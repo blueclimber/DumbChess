@@ -1,3 +1,5 @@
+from pieces import King, Queen, Knight, Bishop, Rook, Pawn
+
 class GameBoard:
     def __init__(self):
         """
@@ -8,7 +10,34 @@ class GameBoard:
 
         have a list of kings to see if they are in check? or pieces?
         """
-        pass
+        self.board = [[None for _ in range(8) for _ in range(8)]]
+        self.setup_pieces()
+
+    def setup_pieces(self):
+        # Place pawns
+        for col in range(8):
+            self.board[1][col] = Pawn(Coordinate(1, col), "black", self)
+            self.board[6][col] = Pawn(Coordinate(6, col), "white", self)
+
+        # Place rooks
+        self.board[0][0] = self.board[0][7] = Rook(Coordinate(0, 0), "black", self)
+        self.board[7][0] = self.board[7][7] = Rook(Coordinate(7, 0), "white", self)
+
+        # Place knights
+        self.board[0][1] = self.board[0][6] = Knight(Coordinate(0, 1), "black", self)
+        self.board[7][1] = self.board[7][6] = Knight(Coordinate(7, 1), "white", self)
+
+        # Place bishops
+        self.board[0][2] = self.board[0][5] = Bishop(Coordinate(0, 2), "black", self)
+        self.board[7][2] = self.board[7][5] = Bishop(Coordinate(7, 2), "white", self)
+
+        # Place queens
+        self.board[0][3] = Queen(Coordinate(0, 3), "black", self)
+        self.board[7][3] = Queen(Coordinate(7, 3), "white", self)
+
+        # Place kings
+        self.board[0][4] = King(Coordinate(0, 4), "black", self)
+        self.board[7][4] = King(Coordinate(7, 4), "white", self)
 
     def display(self):
         """
@@ -26,6 +55,16 @@ class GameBoard:
         If you choose a different labeling scheme, make sure the tester knows.
 
         """
+        print("  A   B   C   D   E   F   G   H")
+        print("  ---------------------------------")
+        for row in range(8):
+            row_str = f"{8 - row} |"
+            for col in range(8):
+                piece = self.board[row][col]
+                row_str += f" {piece.__class__.__name__[0] if piece else ' '} |"
+                print(row_str)
+                print("  ---------------------------------")
+
 
     def move(self, from_coord, to_coord):
         """
