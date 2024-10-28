@@ -1,5 +1,6 @@
 class GameBoard:
     def __init__(self):
+        self.board=[]
         """
         set up a new game
         create the pieces objects with their colors and locations, passing in self as the board
@@ -27,24 +28,26 @@ class GameBoard:
 
         """
 
-    def move(self, from_coord, to_coord):
+    def move(self, from_coord, to_coord, color):
         """
         :param
         from_coord source Coordinate
         to_coord destination Coordinate
         Figure out which piece is in from_coord. If there is no piece there, immediately return False
         """
-        start_row, start_col = from_coord
-        end_row, end_col = to_coord
-        piece = start_row,start_col
+        piece = self.board[from_coord.row][from_coord.column]
         if piece is None:
-            print("no piece in the given coordinate")
+            print("No piece in the coordinate")
+        return False
+        if piece.color!= color:
             return False
+        else:
+            return True
+
         
-        def within_Bounds():
-            if(0<= end_row < 8 and 0<=end_col<8):
+        if not(0<= to_coord.row< 8 and 0<=to_coord.col<8):
                 return True
-            else :
+        else :
                 False
         """        
         def is_piece_w_B():
