@@ -1,0 +1,38 @@
+1.	Piece Class Tests
+  a.	is_enemy:
+    i.	Test with friendly and enemy pieces to confirm correct enemy detection.
+  b.	is_within_bounds:
+    i.	Validate positions within and outside of the 8x8 bounds.
+  c.	path_clear:
+    i.	Simulate blocked and unblocked paths for pieces that cannot jump (e.g., Rook, Queen).
+    ii.	Include cases where pieces are between start and end positions, ensuring path_clear only returns True when the path is clear.
+2.	King Movement Tests
+  a.	Test valid moves (one square in any direction).
+  b.	Test moves that go outside the 1-square range.
+  c.	Test movement boundaries (e.g., moving to the edge of the board).
+3.	Queen Movement Tests
+  a.	Test straight-line movement (horizontal, vertical, and diagonal) within bounds.
+  b.	Test movement where the path is blocked.
+  c.	Test invalid moves (not along straight or diagonal paths).
+4.	Knight Movement Tests
+  a.	Test standard L-shaped moves (2,1) and (1,2).
+  b.	Confirm that the knight can move over other pieces by testing blocked paths.
+  c.	Test moves outside the L-shape pattern.
+5.	Bishop Movement Tests
+  a.	Test diagonal moves with clear paths.
+  b.	Test diagonal moves when another piece blocks the path.
+  c.	Test invalid moves (non-diagonal).
+6.	Rook Movement Tests
+  a.	Test horizontal and vertical moves within bounds.
+  b.	Test blocked paths to ensure path_clear works correctly.
+  c.	Test invalid moves (non-linear paths).
+7.	Pawn Movement Tests
+  a.	Single Forward Move: Test moving forward one square when unblocked.
+  b.	Double Forward Move: Test double-step move from starting position.
+  c.	Capture Move: Test diagonal capture when an enemy piece is present.
+  d.	Invalid Moves: Test invalid moves (e.g., moving backward or sideways).
+8.	Edge Cases
+  a.	Boundary Conditions: Test each piece at the edges of the board to ensure they do not move outside bounds.
+  b.	Friendly Fire: Attempt to move pieces onto spaces occupied by friendly pieces to confirm moves are disallowed.
+  c.	Enemy Capture: Test capturing enemy pieces for all pieces (if relevant to their movement).
+  d.	Blocked Paths: Place friendly or enemy pieces in various positions to test path checking for pieces other than the knight.
