@@ -83,9 +83,9 @@ def move(game, from_coord, to_coord, player):
     This actually calls the Game.move()
     Game.move() returns a bool, this returns that same bool
     """
-    game.move()
+    valid = game.move()
 
-    return True
+    return valid
 
 
 def main():

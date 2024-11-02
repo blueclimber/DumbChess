@@ -1,8 +1,9 @@
 from pieces import King, Queen, Knight, Bishop, Rook, Pawn
 
+
 class GameBoard:
     def __init__(self):
-        self.board=[]
+        self.board = []
         """
         set up a new game
         create the pieces objects with their colors and locations, passing in self as the board
@@ -66,7 +67,6 @@ class GameBoard:
             print(row_str)
             print("  ---------------------------------")
 
-
     def move(self, from_coord, to_coord, color):
         """
         :param
@@ -77,17 +77,24 @@ class GameBoard:
         piece = self.board[from_coord.row][from_coord.column]
         if piece is None:
             print("No piece in the coordinate")
-        return False
-        if piece.color!= color:
             return False
-        else:
-            return True
+        if piece.color != color:
+            print(f"You are trying to move the {piece.color}'s piece.")
+            return False
+        # else:
+        #     return True   This makes the rest of the code unreachable
 
-        
-        if not(0<= to_coord.row< 8 and 0<=to_coord.col<8):
-                return True
-        else :
-                False
+        if not (0 <= to_coord.row < 8 and 0 <= to_coord.col < 8):
+            return False    # return False, not true because if this happens it's invalid
+        # else:
+        #     False     no elses - makes anything following unreachable.
+
+        valid = piece.move(to_coord)    # now call the piece's move function.
+
+        if valid:
+            self.board[from_coord.row][from_coord.column] = None
+            self.board[to_coord.row][to_coord.column] = piece
+        return valid
         """        
         def is_piece_w_B():
         if the piece is used as tupple("piece Name", "color","coordinate","firstTime")
@@ -99,7 +106,6 @@ class GameBoard:
              return Fale;
         
         """
-            
 
         """
         Decide if that piece can legally be moved by the currant player - is the current player white
