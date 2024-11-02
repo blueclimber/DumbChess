@@ -63,8 +63,8 @@ class GameBoard:
             for col in range(8):
                 piece = self.board[row][col]
                 row_str += f" {piece.__class__.__name__[0] if piece else ' '} |"
-                print(row_str)
-                print("  ---------------------------------")
+            print(row_str)
+            print("  ---------------------------------")
 
 
     def move(self, from_coord, to_coord, color):
