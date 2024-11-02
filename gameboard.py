@@ -18,28 +18,28 @@ class GameBoard:
     def setup_pieces(self):
         # Place pawns
         for col in range(8):
-            self.board[1][col] = Pawn(Coordinate(1, col), "black", self)
-            self.board[6][col] = Pawn(Coordinate(6, col), "white", self)
+            self.board[1][col] = Pawn(Coordinate(1, col), "white", self)
+            self.board[6][col] = Pawn(Coordinate(6, col), "black", self)
 
         # Place rooks
-        self.board[0][0] = self.board[0][7] = Rook(Coordinate(0, 0), "black", self)
-        self.board[7][0] = self.board[7][7] = Rook(Coordinate(7, 0), "white", self)
+        self.board[0][0] = self.board[0][7] = Rook(Coordinate(0, 0), "white", self)
+        self.board[7][0] = self.board[7][7] = Rook(Coordinate(7, 0), "black", self)
 
         # Place knights
-        self.board[0][1] = self.board[0][6] = Knight(Coordinate(0, 1), "black", self)
-        self.board[7][1] = self.board[7][6] = Knight(Coordinate(7, 1), "white", self)
+        self.board[0][1] = self.board[0][6] = Knight(Coordinate(0, 1), "white", self)
+        self.board[7][1] = self.board[7][6] = Knight(Coordinate(7, 1), "black", self)
 
         # Place bishops
-        self.board[0][2] = self.board[0][5] = Bishop(Coordinate(0, 2), "black", self)
-        self.board[7][2] = self.board[7][5] = Bishop(Coordinate(7, 2), "white", self)
+        self.board[0][2] = self.board[0][5] = Bishop(Coordinate(0, 2), "white", self)
+        self.board[7][2] = self.board[7][5] = Bishop(Coordinate(7, 2), "black", self)
 
         # Place queens
-        self.board[0][3] = Queen(Coordinate(0, 3), "black", self)
-        self.board[7][3] = Queen(Coordinate(7, 3), "white", self)
+        self.board[0][3] = Queen(Coordinate(0, 3), "white", self)
+        self.board[7][3] = Queen(Coordinate(7, 3), "black", self)
 
         # Place kings
-        self.board[0][4] = King(Coordinate(0, 4), "black", self)
-        self.board[7][4] = King(Coordinate(7, 4), "white", self)
+        self.board[0][4] = King(Coordinate(0, 4), "white", self)
+        self.board[7][4] = King(Coordinate(7, 4), "black", self)
 
     def display(self):
         """

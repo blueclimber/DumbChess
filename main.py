@@ -15,25 +15,26 @@ def game_loop():
     make this all in a loop that switches the players back and forth
     """
     curr_player = "white"
+    other_player = "black"
 
-    Game.display()
+    while True: # this will run unitl someone is in check, then it will return
+        Game.display()
 
-    valid_move = False
+        valid_move = False
 
-    while not valid_move:
-        f, t = get_move(curr_player)
-        valid_move = move(Game, f, t, curr_player)
-    pass
+        while not valid_move:
+            move_from, move_to = get_move(curr_player)
+            try:    # in a try except because we could be passing two None types into the move function - this can fail
+                valid_move = move(Game, move_from, move_to, curr_player)
+            except:
+                valid_move = False
 
-    # change to check for each player
-    # if Game.in_check():
-    #     print("some player is currently in check")
-    #     pass
-    #     # end the game?
+            if Game.in_check(other_player):
+                return other_player
+            elif Game.in_check(curr_player):
+                return curr_player
 
-    """
-    end loop
-    """
+        curr_player, other_player = other_player, curr_player
 
 
 def get_move(player):
@@ -44,22 +45,12 @@ def get_move(player):
     convert input string to two sets of indices using convert_coord_to_index, and then convert to coordinates for
         easy use
     """
-    valid = False
-    player_move = input(f"{player}'s turn: Please enter a move")
-
+    player_move = input(f"{player}'s turn: Please enter a move: ")
     move_list = player_move.split('-')
 
     move_from = convert_string_to_coordinate(move_list[0])  # makes a coordinate object
-
     move_to = convert_string_to_coordinate(move_list[1])    # makes a coordinate object
 
-    """
-
-    check move for validity - is the format correct, do the spaces exist
-    while not valid:
-        prompt for another move
-    return move_from, move_to
-    """
     return move_from, move_to
 
 
@@ -67,12 +58,29 @@ def convert_string_to_coordinate(coord):
     """
     take the input string and convert it into two indices
     """
-    cols = ["A", "B", "C", "D", "E", "F", "G", "H"]
-    row_col_list = coord.split('')
+    cols = ["a", "b", "c", "d", "e", "f", "g", "h"]
+    row_col_list = list(coord)
 
-    row = int(row_col_list[0]) - 1
-    # fixme - what if column is lowercase, or not in the cols list
-    col = cols.index(row_col_list[1]) - 1
+    r = row_col_list[1]
+    c = row_col_list[0]
+
+    try:
+        row = int(r) - 1
+    except:
+        print(f"invalid coordinate {coord} row, please use format A1")
+        return
+
+    try:
+        col = c.lower()
+    except:
+        print(f"invalid coordinate {coord} column, please use format A1")
+        return
+
+    if not(0 <= row <= 7) or (col not in cols):
+        print(f"invalid coordinate {coord}, please use format A1")
+        return
+
+    col = cols.index(col) - 1
 
     new_coord = Coordinate(row, col)
     return new_coord
@@ -83,14 +91,21 @@ def move(game, from_coord, to_coord, player):
     This actually calls the Game.move()
     Game.move() returns a bool, this returns that same bool
     """
-    valid = game.move()
+    valid = game.move(from_coord, to_coord, player)
 
     return valid
 
 
 def main():
-    game_loop()
+    playing = True
 
+    while playing:
+        winner = game_loop()
+        print(f"{winner} won!")
+
+        again = input("Play again? y for yes, n for no")
+        if again != 'y':
+            playing = False
 
 if __name__ == "__main__":
     main()
