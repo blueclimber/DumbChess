@@ -10,6 +10,7 @@ def game_loop():
 
     """
     Game = GameBoard()
+    Game.display()
 
     """
     make this all in a loop that switches the players back and forth
@@ -18,7 +19,7 @@ def game_loop():
     other_player = "black"
 
     while True: # this will run unitl someone is in check, then it will return
-        Game.display()
+
 
         valid_move = False
 
@@ -26,13 +27,15 @@ def game_loop():
             move_from, move_to = get_move(curr_player)
             try:    # in a try except because we could be passing two None types into the move function - this can fail
                 valid_move = move(Game, move_from, move_to, curr_player)
-            except:
+            except Exception as e:
+                print(f"invalid move: {e}")
                 valid_move = False
 
-            if Game.in_check(other_player):
-                return other_player
-            elif Game.in_check(curr_player):
-                return curr_player
+        Game.display()
+        if Game.in_check(other_player):
+            return curr_player
+        elif Game.in_check(curr_player):
+            return other_player
 
         curr_player, other_player = other_player, curr_player
 
@@ -80,7 +83,7 @@ def convert_string_to_coordinate(coord):
         print(f"invalid coordinate {coord}, please use format A1")
         return
 
-    col = cols.index(col) - 1
+    col = cols.index(col)
 
     new_coord = Coordinate(row, col)
     return new_coord
@@ -103,7 +106,7 @@ def main():
         winner = game_loop()
         print(f"{winner} won!")
 
-        again = input("Play again? y for yes, n for no")
+        again = input("Play again? y for yes, n for no: ")
         if again != 'y':
             playing = False
 

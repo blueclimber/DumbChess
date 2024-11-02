@@ -15,6 +15,8 @@ class GameBoard:
         self.board = [[None for _ in range(8)] for _ in range(8)]
         self.setup_pieces()
 
+        self.kings = {"white": Coordinate(7, 4), "black": Coordinate(0, 4)}
+
     def setup_pieces(self):
         # Place pawns
         for col in range(8):
@@ -22,16 +24,22 @@ class GameBoard:
             self.board[6][col] = Pawn(Coordinate(6, col), "black", self)
 
         # Place rooks
-        self.board[0][0] = self.board[0][7] = Rook(Coordinate(0, 0), "white", self)
-        self.board[7][0] = self.board[7][7] = Rook(Coordinate(7, 0), "black", self)
+        self.board[0][0] = Rook(Coordinate(0, 0), "white", self)
+        self.board[0][7] = Rook(Coordinate(0, 7), "white", self)
+        self.board[7][0] = Rook(Coordinate(7, 0), "black", self)
+        self.board[7][7] = Rook(Coordinate(7, 7), "black", self)
 
         # Place knights
-        self.board[0][1] = self.board[0][6] = Knight(Coordinate(0, 1), "white", self)
-        self.board[7][1] = self.board[7][6] = Knight(Coordinate(7, 1), "black", self)
+        self.board[0][1] = Knight(Coordinate(0, 1), "white", self)
+        self.board[0][6] = Knight(Coordinate(0, 6), "white", self)
+        self.board[7][1] = Knight(Coordinate(7, 1), "black", self)
+        self.board[7][6] = Knight(Coordinate(7, 6), "black", self)
 
         # Place bishops
-        self.board[0][2] = self.board[0][5] = Bishop(Coordinate(0, 2), "white", self)
-        self.board[7][2] = self.board[7][5] = Bishop(Coordinate(7, 2), "black", self)
+        self.board[0][2] = Bishop(Coordinate(0, 2), "white", self)
+        self.board[0][5] = Bishop(Coordinate(0, 5), "white", self)
+        self.board[7][2] = Bishop(Coordinate(7, 2), "black", self)
+        self.board[7][5] = Bishop(Coordinate(7, 5), "black", self)
 
         # Place queens
         self.board[0][3] = Queen(Coordinate(0, 3), "white", self)
@@ -57,15 +65,17 @@ class GameBoard:
         If you choose a different labeling scheme, make sure the tester knows.
 
         """
-        print("  A   B   C   D   E   F   G   H")
+        print()
+        print("    A   B   C   D   E   F   G   H")
         print("  ---------------------------------")
-        for row in range(8):
-            row_str = f"{8 - row} |"
+        for row in range(7, -1, -1):
+            row_str = f"{row + 1} |"
             for col in range(8):
                 piece = self.board[row][col]
                 row_str += f" {piece.__class__.__name__[0] if piece else ' '} |"
             print(row_str)
             print("  ---------------------------------")
+        print()
 
     def move(self, from_coord, to_coord, color):
         """
@@ -84,8 +94,15 @@ class GameBoard:
         # else:
         #     return True   This makes the rest of the code unreachable
 
-        if not (0 <= to_coord.row < 8 and 0 <= to_coord.col < 8):
+        to_piece = self.board[to_coord.row][to_coord.column]
+        if to_piece and to_piece.color == color:
+            print("You can't take yourself")
+            return False
+
+        if not (0 <= to_coord.row < 8 and 0 <= to_coord.column < 8):
+            print("you are trying to move off of the gameboard")
             return False    # return False, not true because if this happens it's invalid
+
         # else:
         #     False     no elses - makes anything following unreachable.
 
@@ -94,34 +111,29 @@ class GameBoard:
         if valid:
             self.board[from_coord.row][from_coord.column] = None
             self.board[to_coord.row][to_coord.column] = piece
+            piece.position = to_coord
         return valid
-        """        
-        def is_piece_w_B():
-        if the piece is used as tupple("piece Name", "color","coordinate","firstTime")
-        pieceColor = piece[1] which would give the color
-        if pieceColor is black || white:
-            
-            return True;
-        else 
-             return Fale;
-        
-        """
 
-        """
-        Decide if that piece can legally be moved by the currant player - is the current player white
-            and the piece belongs to black?
-            if it's illegal immediately return False
-        Then call that pieces move function. That will check if the movement fits in that pieces rules and return a bool
-        :return: True if valid move and carried out, False otherwise
-        """
 
     def in_check(self, color):
         """
         check to see if the king is in check.
-        How do we know which king is in check? How do we find the two king's positions? hmmm, solve this one we must
         return True if in check
         return false otherwise
         """
+        # Get the position of the king for the given color
+        king_position = self.kings[color]
+
+        # Iterate over the entire board to check for threats to the king
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row][col]
+                # Check if the piece is an enemy and can move to the king's position
+                if piece and piece.color == color:
+                    if piece.move(king_position):
+                        return True  # The king is in check
+
+        return False  # The king is not in check
 
 
 class Coordinate:

@@ -33,7 +33,7 @@ class Piece:
         row_step = 1 if end.row > start.row else -1 if end.row < start.row else 0
         col_step = 1 if end.column > start.column else -1 if end.column < start.column else 0
         current = Coordinate(start.row + row_step, start.column + col_step)
-        
+
         while current.row != end.row or current.column != end.column:
             if self.board.board[current.row][current.column] is not None:
                 return False
@@ -91,14 +91,14 @@ class Rook(Piece):
 class Pawn(Piece):
     def move(self, new_position):
         row_diff = new_position.row - self.position.row
-        col_diff = abs(new_position.column - self.position.column)
+        col_diff = new_position.column - self.position.column
 
         if self.color == 'white':
             forward = 1
-            start_row = 6
+            start_row = 1
         else:
             forward = -1
-            start_row = 1
+            start_row = 6
 
         if col_diff == 0 and row_diff == forward and not self.board.board[new_position.row][new_position.column]:
             return True
