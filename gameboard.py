@@ -2,6 +2,7 @@ from pieces import King, Queen, Knight, Bishop, Rook, Pawn
 
 class GameBoard:
     def __init__(self):
+        self.board=[]
         """
         set up a new game
         create the pieces objects with their colors and locations, passing in self as the board
@@ -66,12 +67,41 @@ class GameBoard:
                 print("  ---------------------------------")
 
 
-    def move(self, from_coord, to_coord):
+    def move(self, from_coord, to_coord, color):
         """
         :param
         from_coord source Coordinate
         to_coord destination Coordinate
         Figure out which piece is in from_coord. If there is no piece there, immediately return False
+        """
+        piece = self.board[from_coord.row][from_coord.column]
+        if piece is None:
+            print("No piece in the coordinate")
+        return False
+        if piece.color!= color:
+            return False
+        else:
+            return True
+
+        
+        if not(0<= to_coord.row< 8 and 0<=to_coord.col<8):
+                return True
+        else :
+                False
+        """        
+        def is_piece_w_B():
+        if the piece is used as tupple("piece Name", "color","coordinate","firstTime")
+        pieceColor = piece[1] which would give the color
+        if pieceColor is black || white:
+            
+            return True;
+        else 
+             return Fale;
+        
+        """
+            
+
+        """
         Decide if that piece can legally be moved by the currant player - is the current player white
             and the piece belongs to black?
             if it's illegal immediately return False
