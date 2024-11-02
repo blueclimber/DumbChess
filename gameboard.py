@@ -11,7 +11,7 @@ class GameBoard:
 
         have a list of kings to see if they are in check? or pieces?
         """
-        self.board = [[None for _ in range(8) for _ in range(8)]]
+        self.board = [[None for _ in range(8)] for _ in range(8)]
         self.setup_pieces()
 
     def setup_pieces(self):
