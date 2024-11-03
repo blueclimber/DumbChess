@@ -12,3 +12,6 @@ Enter moves in the format 'A2-B2' meaning from-to"
 
 Note: moves are E2-D4 without spaces. moves can be typed in lowercase.
 Otherwise, no changes to the specs.
+
+To run tests run python test_chess.py
+All tests pass
