@@ -14,8 +14,8 @@ class GameBoard:
         """
         self.board = [[None for _ in range(8)] for _ in range(8)]
         self.setup_pieces()
-
         self.kings = {"white": Coordinate(7, 4), "black": Coordinate(0, 4)}
+        self.over = False
 
     def setup_pieces(self):
         # Place pawns
@@ -130,6 +130,11 @@ class GameBoard:
                 else:
                     if to_coord.row == 0:
                         self.board[to_coord.row][to_coord.column] = Queen(to_coord, "black", self, "queen")
+
+            if to_piece and to_piece.name == "king":
+                self.over = True
+            elif to_piece:
+                print(f"{to_piece.color} {to_piece.name} captured")
 
         return valid
 

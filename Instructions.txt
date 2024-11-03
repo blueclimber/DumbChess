@@ -1,0 +1,14 @@
+This is a dumb chess game.
+To run the code, make sure that you have python downloaded on your machine.
+Save all of the python files into the same folder.
+From the command line, navigate to the folder holding this program. They type python main.py
+The game will run in the console. The game will tell you what to do, as follows.
+
+"Welcome to dumb chess.
+White is uppercase, black is lowercase.
+Whoever takes their opponent's king wins!
+White goes first.
+Enter moves in the format 'A2-B2' meaning from-to"
+
+Note: moves are E2-D4 without spaces. moves can be typed in lowercase.
+Otherwise, no changes to the specs.
