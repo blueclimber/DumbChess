@@ -10,6 +10,11 @@ def game_loop():
 
     """
     Game = GameBoard()
+    print("Welcome to dumb chess. \nWhite is uppercase, black is lowercase. \nWhoever"
+          "puts their opponent in check first wins!"
+          "\nWhite goes first. "
+          "\nEnter moves in the format 'A2-B2' meaning from-to")
+
     Game.display()
 
     """
