@@ -7,10 +7,9 @@ class GameBoard:
         """
         set up a new game
         create the pieces objects with their colors and locations, passing in self as the board
-
-        game data structure: 2D 8x8 list of piece objects or None
-
-        have a list of kings to see if they are in check? or pieces?
+        game.board structure: 2D 8x8 list of piece objects or None
+        self.kings is a dictionary of king color and location, used for checking if king is in check
+        self.over is a placeholder that gets change to True if a king is captured
         """
         self.board = [[None for _ in range(8)] for _ in range(8)]
         self.setup_pieces()
@@ -18,6 +17,10 @@ class GameBoard:
         self.over = False
 
     def setup_pieces(self):
+        """
+        create each piece and place in it's starting location
+        no return
+        """
         # Place pawns
         for col in range(8):
             self.board[1][col] = Pawn(Coordinate(1, col), "white", self, "pawn")
@@ -51,19 +54,8 @@ class GameBoard:
 
     def display(self):
         """
-        how to display the game
-        Display:
-        You need an 8x8 board. The easiest thing to program, and probably to visualize is a grid of boxes formed by
-        vertical and horizontal lines. (“|” and “-“)
-        You need some way of labeling the pieces. I recommend the following for display: k,q,b,n,r,p for the black
-        pieces, and the same letters upper case for white.  Note that the knight is “n”. If you choose a different
-        representation, let the tester know.
-        The board is labeled as follows: From where WHITE sits, the ranks (rows) are labeled 1 through 8 (bottom to
-        top). The files (columns) are labeled A through H (left to right).
-        For example, the white has rooks (castles) on A1 and H1, and the white king is on E1. The black king is on E8.
-        It would be nice to have the labels on the board you display, but you decide.
-        If you choose a different labeling scheme, make sure the tester knows.
-
+        prints the game
+        no return
         """
         print()
         print("    A   B   C   D   E   F   G   H")
@@ -93,6 +85,14 @@ class GameBoard:
         from_coord source Coordinate
         to_coord destination Coordinate
         Figure out which piece is in from_coord. If there is no piece there, immediately return False
+        Check that the piece's color matches the current player
+        Checks to_coord. If a piece is there makes sure it is the opponant's color
+        Ensures that player is moving to a real location on the board
+        Call's the pieces move function, and stores the return value in valid
+        If the move is valid, check if the piece is a pawn, and if it is, and is at the last row, promote it to a queen
+        If the move is valid, and there is a piece in the to_coord, if it's a king report the win, otherwise report
+        on the capture
+        Return valid
         """
         piece = self.board[from_coord.row][from_coord.column]
         if piece is None:
@@ -101,8 +101,6 @@ class GameBoard:
         if piece.color != color:
             print(f"You are trying to move the {piece.color}'s piece.")
             return False
-        # else:
-        #     return True   This makes the rest of the code unreachable
 
         to_piece = self.board[to_coord.row][to_coord.column]
         if to_piece and to_piece.color == color:
@@ -111,10 +109,7 @@ class GameBoard:
 
         if not (0 <= to_coord.row < 8 and 0 <= to_coord.column < 8):
             print("you are trying to move off of the gameboard")
-            return False    # return False, not true because if this happens it's invalid
-
-        # else:
-        #     False     no elses - makes anything following unreachable.
+            return False
 
         valid = piece.move(to_coord)    # now call the piece's move function.
 
@@ -126,9 +121,11 @@ class GameBoard:
             if piece.name == "pawn":
                 if color == "white":
                     if to_coord.row == 7:
+                        print(f"Promoting {color} Pawn to Queen")
                         self.board[to_coord.row][to_coord.column] = Queen(to_coord, "white", self, "queen")
                 else:
                     if to_coord.row == 0:
+                        print(f"Promoting {color} Pawn to Queen")
                         self.board[to_coord.row][to_coord.column] = Queen(to_coord, "black", self, "queen")
 
             if to_piece and to_piece.name == "king":

@@ -14,13 +14,7 @@ class Piece:
         :param
         new_position - a new boardgame position
 
-        if new_position is valid, set self.position = new_position
-        remember to check for pieces that are in between current position and new position. That makes the
-        move invalid for everyone except the knight
-
-        If there is a piece taken, find it on self.board and remove it?
-        :return
-        bool True if valid position and position changed, False otherwise
+        check each piece's rules and return if the move is valid.
         """
         pass
 
