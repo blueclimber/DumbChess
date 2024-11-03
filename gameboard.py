@@ -1,4 +1,4 @@
-from pieces import King, Queen, Knight, Bishop, Rook, Pawn
+from pieces import King, Queen, Knight, Bishop, Rook, Pawn, Coordinate
 
 
 class GameBoard:
@@ -79,25 +79,81 @@ class GameBoard:
             print("  ---------------------------------")
         print()
 
+    # def move(self, from_coord, to_coord, color):
+    #     """
+    #     :param
+    #     from_coord source Coordinate
+    #     to_coord destination Coordinate
+    #     Figure out which piece is in from_coord. If there is no piece there, immediately return False
+    #     Check that the piece's color matches the current player
+    #     Checks to_coord. If a piece is there makes sure it is the opponant's color
+    #     Ensures that player is moving to a real location on the board
+    #     Call's the pieces move function, and stores the return value in valid
+    #     If the move is valid, check if the piece is a pawn, and if it is, and is at the last row, promote it to a queen
+    #     If the move is valid, and there is a piece in the to_coord, if it's a king report the win, otherwise report
+    #     on the capture
+    #     Return valid
+    #     """
+    #     piece = self.board[from_coord.row][from_coord.column]
+    #     if piece is None:
+    #         print("No piece in the coordinate")
+    #         return False
+    #     if piece.color != color:
+    #         print(f"You are trying to move the {piece.color}'s piece.")
+    #         return False
+
+    #     to_piece = self.board[to_coord.row][to_coord.column]
+    #     if to_piece and to_piece.color == color:
+    #         print("You can't take yourself")
+    #         return False
+
+    #     if not (0 <= to_coord.row < 8 and 0 <= to_coord.column < 8):
+    #         print("you are trying to move off of the gameboard")
+    #         return False
+
+    #     valid = piece.move(to_coord)    # now call the piece's move function.
+
+    #     if piece.name == "pawn":
+    #         # Handle diagonal capture
+    #         if abs(from_coord.column - to_coord.column) == 1 and \
+    #         ((color == "white" and to_coord.row == from_coord.row + 1) or 
+    #             (color == "black" and to_coord.row == from_coord.row - 1)):
+    #             if to_piece and to_piece.color != color:
+    #                 valid = True
+    #         # Handle standard forward move for pawns
+    #         elif from_coord.column == to_coord.column and to_piece is None:
+    #             valid = piece.move(to_coord)
+    #         else:
+    #             valid = False
+
+    #     if valid:
+    #         self.board[from_coord.row][from_coord.column] = None
+    #         self.board[to_coord.row][to_coord.column] = piece
+    #         piece.position = to_coord
+
+    #         if piece.name == "pawn":
+    #             if color == "white":
+    #                 if to_coord.row == 7:
+    #                     print(f"Promoting {color} Pawn to Queen")
+    #                     self.board[to_coord.row][to_coord.column] = Queen(to_coord, "white", self, "queen")
+    #             else:
+    #                 if to_coord.row == 0:
+    #                     print(f"Promoting {color} Pawn to Queen")
+    #                     self.board[to_coord.row][to_coord.column] = Queen(to_coord, "black", self, "queen")
+
+    #         if to_piece and to_piece.name == "king":
+    #             self.over = True
+    #         elif to_piece:
+    #             print(f"{to_piece.color} {to_piece.name} captured")
+
+    #     return valid
+
     def move(self, from_coord, to_coord, color):
-        """
-        :param
-        from_coord source Coordinate
-        to_coord destination Coordinate
-        Figure out which piece is in from_coord. If there is no piece there, immediately return False
-        Check that the piece's color matches the current player
-        Checks to_coord. If a piece is there makes sure it is the opponant's color
-        Ensures that player is moving to a real location on the board
-        Call's the pieces move function, and stores the return value in valid
-        If the move is valid, check if the piece is a pawn, and if it is, and is at the last row, promote it to a queen
-        If the move is valid, and there is a piece in the to_coord, if it's a king report the win, otherwise report
-        on the capture
-        Return valid
-        """
         piece = self.board[from_coord.row][from_coord.column]
         if piece is None:
             print("No piece in the coordinate")
             return False
+
         if piece.color != color:
             print(f"You are trying to move the {piece.color}'s piece.")
             return False
@@ -106,58 +162,99 @@ class GameBoard:
         if to_piece and to_piece.color == color:
             print("You can't take yourself")
             return False
-
+        
         if not (0 <= to_coord.row < 8 and 0 <= to_coord.column < 8):
             print("you are trying to move off of the gameboard")
             return False
 
-        valid = piece.move(to_coord)    # now call the piece's move function.
+        print(f"Attempting to move {color} {piece.name} from ({from_coord.row},{from_coord.column}) to ({to_coord.row},{to_coord.column})")
+
+        valid = piece.move(to_coord)
+
+        # Special handling for pawns (including diagonal captures and promotion)
+        if piece.name == "pawn":
+            # Handle diagonal capture
+            if abs(from_coord.column - to_coord.column) == 1 and \
+            ((color == "white" and to_coord.row == from_coord.row + 1) or 
+                (color == "black" and to_coord.row == from_coord.row - 1)):
+                if to_piece and to_piece.color != color:
+                    valid = True
+            # Handle standard forward move for pawns
+            elif from_coord.column == to_coord.column and to_piece is None:
+                valid = piece.move(to_coord)
+            else:
+                valid = False
 
         if valid:
+            # Move the piece on the board
             self.board[from_coord.row][from_coord.column] = None
             self.board[to_coord.row][to_coord.column] = piece
             piece.position = to_coord
 
-            if piece.name == "pawn":
-                if color == "white":
-                    if to_coord.row == 7:
-                        print(f"Promoting {color} Pawn to Queen")
-                        self.board[to_coord.row][to_coord.column] = Queen(to_coord, "white", self, "queen")
-                else:
-                    if to_coord.row == 0:
-                        print(f"Promoting {color} Pawn to Queen")
-                        self.board[to_coord.row][to_coord.column] = Queen(to_coord, "black", self, "queen")
+            # Update the king's position if the king moved
+            if piece.name == "king":
+                self.kings[color] = to_coord
 
-            if to_piece and to_piece.name == "king":
-                self.over = True
-            elif to_piece:
-                print(f"{to_piece.color} {to_piece.name} captured")
+            # Promotion for pawns reaching the last rank
+            if piece.name == "pawn" and ((piece.color == "white" and to_coord.row == 7) or (color == "black" and to_coord.row == 0)):
+                print(f"Promoting {color} Pawn to Queen at {to_coord}")
+                # Replace the pawn with a queen in the `to_coord` position
+                self.board[to_coord.row][to_coord.column] = Queen(to_coord, color, self, "queen")
+                # Debugging: Check the promotion status
+                print(f"Promotion complete: {self.board[to_coord.row][to_coord.column]}")
+
+            # Handle capture announcement
+            if to_piece:
+                if to_piece.name == "king":
+                    self.over = True
+                    print(f"{color} wins! Captured the king.")
+                else:
+                    print(f"{color} captured {to_piece.color} {to_piece.name}")
 
         return valid
 
+        
 
+
+    # def in_check(self, color):
+    #     """
+    #     check to see if the king is in check.
+    #     return True if in check
+    #     return false otherwise
+    #     """
+    #     # Get the position of the king for the given color
+    #     king_position = self.kings[color]
+
+    #     # Iterate over the entire board to check for threats to the king
+    #     for row in range(8):
+    #         for col in range(8):
+    #             piece = self.board[row][col]
+    #             # Check if the piece is an enemy and can move to the king's position
+    #             if piece and piece.color == color:
+    #                 if piece.check_for_check(king_position):
+    #                     return True  # The king is in check
+
+    #     return False  # The king is not in check
     def in_check(self, color):
         """
-        check to see if the king is in check.
-        return True if in check
-        return false otherwise
+        Check if the king of the specified color is in check.
         """
-        # Get the position of the king for the given color
-        king_position = self.kings[color]
+        king_position = self.kings[color]  # Get the position of the king for the given color
 
-        # Iterate over the entire board to check for threats to the king
+        # Iterate over the board to check for enemy pieces that can attack the king's position
         for row in range(8):
             for col in range(8):
                 piece = self.board[row][col]
-                # Check if the piece is an enemy and can move to the king's position
-                if piece and piece.color == color:
+                # Check if the piece belongs to the opponent and can move to the king's position
+                if piece and piece.color != color:
                     if piece.check_for_check(king_position):
-                        return True  # The king is in check
+                        print(f"{color} king is in check by {piece.color} {piece.name} at {piece.position}")
+                    return True  # The king is in check
 
         return False  # The king is not in check
 
 
-class Coordinate:
-    def __init__(self, row, column):
-        self.row = row
-        self.column = column
+# class Coordinate:
+#     def __init__(self, row, column):
+#         self.row = row
+#         self.column = column

@@ -1,4 +1,5 @@
 from gameboard import *
+from pieces import *
 
 
 def game_loop():
